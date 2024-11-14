@@ -25,8 +25,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-
 // This should be completed in a group setting
 // ToDo 1: Analyze the requirements for Individual Project 3\
 // What we do here will be directly used in Individual Project 3.

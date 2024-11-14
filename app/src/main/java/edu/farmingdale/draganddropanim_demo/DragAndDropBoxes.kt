@@ -36,7 +36,9 @@ import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.mimeTypes
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,9 +48,10 @@ import androidx.compose.ui.unit.sp
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
     Column(modifier = Modifier.fillMaxSize()) {
 
-        Row(
+        Row( // decide weight
             modifier = modifier
-                .fillMaxWidth().weight(0.2f)
+                .fillMaxWidth()
+                .weight(0.2f)
         ) {
             val boxCount = 4
             var dragBoxIndex by remember {
@@ -72,7 +75,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                                 object : DragAndDropTarget {
                                     override fun onDrop(event: DragAndDropEvent): Boolean {
 
-                                        dragBoxIndex = index
+                                        dragBoxIndex = index //destination
                                         return true
                                     }
                                 }
@@ -81,8 +84,8 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                     contentAlignment = Alignment.Center
                 ) {
                     this@Row.AnimatedVisibility(
-                        visible = index == dragBoxIndex,
-                        enter = scaleIn() + fadeIn(),
+                        visible = index == dragBoxIndex, // == Checking, Easy way, just changing visibility
+                        enter = scaleIn() + fadeIn(), // Use when to make more complicated
                         exit = scaleOut() + fadeOut()
                     ) {
                         Text(
@@ -94,13 +97,13 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .dragAndDropSource {
-                                    detectTapGestures(
-                                        onLongPress = { offset ->
-                                            startTransfer(
+                                    detectTapGestures( // detect in modifier specific long press
+                                        onLongPress = { offset -> // Start
+                                            startTransfer( // Define what we do
                                                 transferData = DragAndDropTransferData(
-                                                    clipData = ClipData.newPlainText(
+                                                    clipData = ClipData.newPlainText( //ctrl c copy
                                                         "text",
-                                                        ""
+                                                        "" // "if"
                                                     )
                                                 )
                                             )
@@ -121,8 +124,11 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 .background(Color.Red)
 
         ) {
-                drawCircle(Color.Green, radius = 50f, center = Offset(100f, 100f))
-       }
+//                drawCircle(Color.Green, radius = 50f, center = Offset(100f, 100f)
+            translate(left = 100f, top = 100f) {
+                drawRect(Color.Green, size = Size(100f, 100f))
+            }
+        }
     }
 }
 
