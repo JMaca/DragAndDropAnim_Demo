@@ -19,20 +19,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DragAndDropAnim_DemoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   Greeting("Android", Modifier.padding(innerPadding))
 
                 }
             }
         }
     }
-}
 
 
 
 // This should be completed in a group setting
-// ToDo 1: Analyze the requirements for Individual Project 3
+// ToDo 1: Analyze the requirements for Individual Project 3\
+// What we do here will be directly used in Individual Project 3.
+// We will need to implement a way to create drag and drop while running animations
+// Target specific landscape. Attempt all devices.
 // ToDo 2: Show the DragAndDropBoxes composable
+
 // ToDo 3: Change the circle to a rect
 // ToDo 4: Replace the command right with a image or icon
 // ToDo 5: Make this works in landscape mode only
