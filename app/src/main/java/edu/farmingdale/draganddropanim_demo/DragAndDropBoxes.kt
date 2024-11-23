@@ -6,6 +6,8 @@ import android.content.ClipData
 import android.content.ClipDescription
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -126,7 +128,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             Animatable(0f)
         }
         LaunchedEffect(Unit) {
-            rotateAnimation.animateTo(720f)
+            rotateAnimation.animateTo(720f, animationSpec = tween(durationMillis = 3000, easing = LinearEasing))
         }
         Box(
             modifier = Modifier.graphicsLayer {
@@ -141,8 +143,8 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                 .background(Color.Red)
 
         ) {
-//                drawCircle(Color.Green, radius = 50f, center = Offset(100f, 100f)
-            rotate(0f) {
+//          drawCircle(Color.Green, radius = 50f, center = Offset(100f, 100f)
+            rotate(rotateAnimation.value,pivot = Offset(150f, 150f)) {
                 translate(left = 100f, top = 100f) {
                     drawRect(Color.Green, size = Size(100f, 100f))
                 }
