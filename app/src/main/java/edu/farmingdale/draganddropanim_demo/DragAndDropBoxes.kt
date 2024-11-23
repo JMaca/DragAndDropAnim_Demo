@@ -144,22 +144,22 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             )
 
         }
-//        LaunchedEffect (resetPosition){
-//            horizontalMovement.animateTo(100f, animationSpec = tween(durationMillis = 1000))
-//            verticalMovement.animateTo(100f, animationSpec = tween(durationMillis = 1000))
-//            resetPosition = false
-//        }
-//        // Button to reset the rectangle back to the center
-//        Button(
-//            onClick = {
-//                resetPosition = true
-//            },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(16.dp)
-//        ) {
-//            Text("Reset to Original Spot")
-//        }
+        LaunchedEffect (resetPosition){
+            horizontalMovement.animateTo(100f, animationSpec = tween(durationMillis = 1000))
+            verticalMovement.animateTo(100f, animationSpec = tween(durationMillis = 1000))
+            resetPosition = false
+        }
+        // Button to reset the rectangle back to the center
+        Button(
+            onClick = {
+                resetPosition = true
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text("Reset to Original Spot")
+        }
         Box(
             modifier = Modifier.graphicsLayer {
                 alpha = rotateAnimation.value
