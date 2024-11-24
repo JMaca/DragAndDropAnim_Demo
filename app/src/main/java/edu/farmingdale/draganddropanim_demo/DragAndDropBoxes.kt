@@ -4,6 +4,7 @@ package edu.farmingdale.draganddropanim_demo
 
 import android.content.ClipData
 import android.content.ClipDescription
+import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -22,6 +23,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,6 +58,14 @@ import kotlinx.coroutines.coroutineScope
 
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
+
+    val rotateAnimation = remember { Animatable(0f) }
+    var dropPosition by remember { mutableStateOf(Offset(100f, 100f)) }
+    val horizontalMovement = remember { Animatable(dropPosition.x) }
+    val verticalMovement = remember { Animatable(dropPosition.y) }
+    var resetPosition by remember { mutableStateOf(false) }
+
+    Spacer(Modifier.padding(20.dp))
     Column(modifier = Modifier.fillMaxSize()) {
 
         Row( // decide weight
@@ -66,6 +76,18 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             val boxCount = 4
             var dragBoxIndex by remember {
                 mutableIntStateOf(0)
+            }
+
+
+            LaunchedEffect(dropPosition) {
+                horizontalMovement.animateTo(
+                    dropPosition.x,
+                    animationSpec = tween(durationMillis = 1000)
+                )
+                verticalMovement.animateTo(
+                    dropPosition.y,
+                    animationSpec = tween(durationMillis = 1000)
+                )
             }
 
             repeat(boxCount) { index ->
@@ -84,8 +106,8 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                             target = remember {
                                 object : DragAndDropTarget {
                                     override fun onDrop(event: DragAndDropEvent): Boolean {
-
                                         dragBoxIndex = index //destination
+                                        dropPosition = Offset(525f * (dragBoxIndex + 1), 200f)
                                         return true
                                     }
                                 }
@@ -124,11 +146,6 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             }
         }
 
-        val rotateAnimation = remember { Animatable(0f) }
-        val verticalMovement = remember { Animatable(100f) }
-        val horizontalMovement = remember { Animatable(100f) }
-        var resetPosition by remember { mutableStateOf(false) }
-
         LaunchedEffect(Unit) {
             rotateAnimation.animateTo(
                 720f,
@@ -144,7 +161,7 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
             )
 
         }
-        LaunchedEffect (resetPosition){
+        LaunchedEffect(resetPosition) {
             horizontalMovement.animateTo(100f, animationSpec = tween(durationMillis = 1000))
             verticalMovement.animateTo(100f, animationSpec = tween(durationMillis = 1000))
             resetPosition = false
